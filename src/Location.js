@@ -24,8 +24,6 @@ const Location=()=>{
 
         displayMarker(locPosition, message);
       })
-        
-      
     } else {
       var locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
       var message = 'geolocation을 사용할수 없어요..';
@@ -41,7 +39,7 @@ const Location=()=>{
       var iwContent = message;
       var iwRemoveable = true;
 
-      var infowindow = new kakao.maps.infowindow({
+      var infowindow = new kakao.maps.InfoWindow({
         content: iwContent,
         removalble: iwRemoveable
       });

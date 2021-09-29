@@ -1,7 +1,8 @@
-import React, {useEffect} from 'react';
+/*global kakao*/
+import React, { useEffect } from 'react';
 
 const LibraryLocation = () => {
-  
+
   useEffect(() => {
     var mapContainer = document.getElementById('map');
     var mapOptions = {

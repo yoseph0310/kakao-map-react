@@ -7,8 +7,8 @@ function App() {
     <div className="App">
       <body>
         <div id="map">
-          {/* <CurrentLocation /> */}
-          <LibararyLocation />
+          <CurrentLocation />
+          {/* <LibararyLocation /> */}
         </div>
       </body>
     </div>

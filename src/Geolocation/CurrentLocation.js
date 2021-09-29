@@ -1,7 +1,7 @@
 /*global kakao*/
 import React, { useEffect } from 'react'
 
-const Location = () => {
+const CurrentLocation = () => {
 
   useEffect(() => {
     var container = document.getElementById('map');
@@ -28,6 +28,7 @@ const Location = () => {
 
       displayMarker(locPosition, message);
     }
+    
     function displayMarker(locPosition, message) {
       var marker = new kakao.maps.Marker({
         map: map,
@@ -56,4 +57,4 @@ const Location = () => {
   )
 }
 
-export default Location;
+export default CurrentLocation;

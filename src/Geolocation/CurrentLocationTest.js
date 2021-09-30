@@ -7,14 +7,14 @@ const CurrentLocation = () => {
   const [bookIsbn, setBookIsbn] = useState('');
   const [libGugun, setLibGugun] = useState('');
 
-  const container = document.getElementById('map');
-  const options = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667),
-      level: 3
-    };
-
+  
   useEffect(() => {
-
+    
+    const container = document.getElementById('map');
+    const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 3
+      };
     async function getLibraryList(){
       try{
           await libraryAPI.getLibrary(bookIsbn, libGugun);

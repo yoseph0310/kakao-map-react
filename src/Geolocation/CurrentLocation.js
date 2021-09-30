@@ -21,17 +21,16 @@ const CurrentLocation = () => {
         var lon = position.coords.longitude;
 
         var locPosition = new kakao.maps.LatLng(lat, lon);
-        var callback = function(result, status) {
+        searchDetailAddrFromCoords(locPosition, function (result, status) {
           if (status === kakao.maps.services.Status.OK) {
-            var gugun = result[0].address.region_2depth_name;
-            console.log(gugun);
+            // var bookIsbn = "8809105879618";
+            var libGugun = result[0].address.region_2depth_name;
+            
+            var message = '<div style="padding:5px;">'+libGugun+'</div>';
+            
+            displayMarker(locPosition, message);
           }
-        };
-        geocoder.coord2Address(locPosition.getLng(), locPosition.getLat(), callback);
-
-        var message = '<div style="padding:5px;">현재위치</div>';
-        
-        displayMarker(locPosition, message);
+        });
       })
     } else {
       var locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
@@ -56,6 +55,10 @@ const CurrentLocation = () => {
 
       infowindow.open(map, marker);
       map.setCenter(locPosition);
+    }
+
+    function searchDetailAddrFromCoords(coords, callback) {
+      geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
     }
 
   }, [])

@@ -19,11 +19,21 @@ const LibraryLocation = () => {
     var marker = new kakao.maps.Marker();
     var infowindow = new kakao.maps.InfoWindow({ zindex: 1 });
 
-    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-
+    var coord = new kakao.maps.LatLng(37.56496830314491, 126.93990862062978);
+    var callback = function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            console.log(result[0].address.region_2depth_name);
+        }
+    };
+    
+    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+    
+    
+    // searchAddrFromCoords(map.getCenter(), displayCenterInfo);
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
       searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
-          if (status === kakao.maps.services.Status.OK) {
+        if (status === kakao.maps.services.Status.OK) {
+              console.log(result[0].address.region_2depth_name);
               var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
               detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
               
@@ -44,9 +54,9 @@ const LibraryLocation = () => {
   });
 
     // 좌표로 행정동 주소 정보를 요청합니다.
-    function searchAddrFromCoords(coords, callback) {
-      geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-    }
+    // function searchAddrFromCoords(coords, callback) {
+    //   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+    // }
 
     // 좌표로 법정동 상세 주소 정보를 요청합니다.
     function searchDetailAddrFromCoords(coords, callback) {
@@ -54,19 +64,19 @@ const LibraryLocation = () => {
     }
 
     // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수
-    function displayCenterInfo(result, status) {
-      if (status === kakao.maps.services.Status.OK) {
-        var infoDiv = document.getElementById('centerAddr');
+    // function displayCenterInfo(result, status) {
+    //   if (status === kakao.maps.services.Status.OK) {
+    //     var infoDiv = document.getElementById('centerAddr');
 
-        for (var i = 0; i < result.length; i++) {
-          if (result[i].region_type === 'H') {
-            infoDiv.innerHTML = result[i].address_name;
-            break;
-          }
-        }
+    //     for (var i = 0; i < result.length; i++) {
+    //       if (result[i].region_type === 'H') {
+    //         infoDiv.innerHTML = result[i].address_name;
+    //         break;
+    //       }
+    //     }
 
-      }
-    }
+    //   }
+    // }
 
   })
 

@@ -1,16 +1,15 @@
 import './App.css';
-import CurrentLocation from "./Geolocation/CurrentLocation";
-import LibararyLocation from "./ManyMarker/LibraryLocation";
+import BLT from "./BookListTest/BookListTest"
+// import CurrentLocation from "./Geolocation/CurrentLocation";
+// import CLT from "./Geolocation/CurrentLocationTest";
+// import LibararyLocation from "./ManyMarker/LibraryLocation";
 
 function App() {
   return (
-    <div className="App">
-      <body>
-        <div id="map">
-          <CurrentLocation />
-          {/* <LibararyLocation /> */}
-        </div>
-      </body>
+    <div className="App">  
+      <BLT />
+      {/* <CurrentLocation /> */}
+      {/* <LibararyLocation /> */}
     </div>
   );
 }

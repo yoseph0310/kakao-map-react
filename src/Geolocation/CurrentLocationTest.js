@@ -1,15 +1,30 @@
 /*global kakao*/
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { libraryAPI } from '../utils/axios'
 
 const CurrentLocation = () => {
 
-  useEffect(() => {
-    var container = document.getElementById('map');
-    var options = {
+  const [bookIsbn, setBookIsbn] = useState('');
+  const [libGugun, setLibGugun] = useState('');
+
+  const container = document.getElementById('map');
+  const options = {
       center: new kakao.maps.LatLng(33.450701, 126.570667),
       level: 3
     };
 
+  useEffect(() => {
+
+    async function getLibraryList(){
+      try{
+          await libraryAPI.getLibrary(bookIsbn, libGugun);
+      }catch(e){
+        console.log("clt에서 잡음");
+        console.log(e);
+      }
+    }
+    
+    setBookIsbn("8809105879618");
     // 지도 생성
     var map = new kakao.maps.Map(container, options);
     // 주소 - 좌표 변환 객체 생성
@@ -19,19 +34,23 @@ const CurrentLocation = () => {
       navigator.geolocation.getCurrentPosition(function (position) {
         var lat = position.coords.latitude;
         var lon = position.coords.longitude;
-
         var locPosition = new kakao.maps.LatLng(lat, lon);
-        var callback = function(result, status) {
-          if (status === kakao.maps.services.Status.OK) {
-            var gugun = result[0].address.region_2depth_name;
-            console.log(gugun);
-          }
-        };
-        geocoder.coord2Address(locPosition.getLng(), locPosition.getLat(), callback);
-
-        var message = '<div style="padding:5px;">현재위치</div>';
         
-        displayMarker(locPosition, message);
+        searchDetailAddrFromCoords(locPosition, function (result, status) {
+          if (status === kakao.maps.services.Status.OK) {
+            // var bookIsbn = "8809105879618";
+            // var libGugun = result[0].address.region_2depth_name;
+            
+            
+            setLibGugun(result[0].address.region_2depth_name);
+            var message = '<div style="padding:5px;">'+libGugun+'</div>';
+            
+            console.log(bookIsbn, libGugun);
+            displayMarker(locPosition, message);
+            getLibraryList();
+          }
+        });
+
       })
     } else {
       var locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
@@ -58,7 +77,11 @@ const CurrentLocation = () => {
       map.setCenter(locPosition);
     }
 
-  }, [])
+    function searchDetailAddrFromCoords(coords, callback) {
+      geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+    }
+
+  }, [bookIsbn, libGugun])
 
 
   return (
